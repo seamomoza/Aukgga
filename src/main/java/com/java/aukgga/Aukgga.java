@@ -2,12 +2,10 @@ package com.java.aukgga;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.ChatPaginator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,12 +147,19 @@ public class Aukgga extends JavaPlugin implements Listener {
             if (random.nextDouble() < 0.75) {
                 if (!player.getInventory().isEmpty()) {
                     ItemStack[] contents = player.getInventory().getContents();
-                    for (int i = 0; i < contents.length; i++) {
-                        if (contents[i] != null) {
-                            player.getWorld().dropItemNaturally(player.getLocation(), contents[i]);
-                            player.sendMessage(ChatColor.RED + "ㅋ 아이템 드랍잼");
-                            player.getInventory().setItem(i, null); // 해당 아이템 제거
+                    List<ItemStack> nonEmptyItems = new ArrayList<>();
+
+                    for (ItemStack item : contents) {
+                        if (item != null) {
+                            nonEmptyItems.add(item);
                         }
+                    }
+
+                    if (!nonEmptyItems.isEmpty()) {
+                        ItemStack droppedItem = nonEmptyItems.get(random.nextInt(nonEmptyItems.size()));
+                        player.getWorld().dropItemNaturally(player.getLocation(), droppedItem);
+                        player.sendMessage(ChatColor.RED + "ㅋ 아이템 하나를 드롭했습니다!");
+                         // 해당 아이템 제거
                     }
                 }
             }
@@ -164,6 +168,7 @@ public class Aukgga extends JavaPlugin implements Listener {
             }
         }
     }
+
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
