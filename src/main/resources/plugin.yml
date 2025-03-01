@@ -1,0 +1,11 @@
+name: Aukgga
+version: '1.0-SNAPSHOT'
+main: com.java.aukgga.Aukgga
+api-version: '1.21'
+commands:
+  aukgga:
+    description: Starts the Aukgga event.
+    usage: /aukgga
+    permission: aukgga.use
+    permission-message: "You don't have permission to use this command."
+    aliases: []  # <- 빈 리스트로 명시적으로 별칭 제거
